@@ -1,3 +1,3 @@
-base url : https://api-alquranid.herokuapp.com
+base url : 
 
-https://github.com/wanrabbae/al-quran-indonesia-api
+https://github.com/bachors/Al-Quran-ID-API
