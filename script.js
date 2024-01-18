@@ -1,26 +1,37 @@
 const surahCotainer = document.querySelector('.container-surah');
-
 const apiUrl = ``;
 
 
-fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
-    .then(response => response.json())
-    .then(ressult => {
-        const surah = ressult
-        let card = ' '
-        surah.forEach(s => {
-            card += showSurah(s)
-        });
+    fetchSurah();
 
-        surahCotainer.innerHTML = card
-    })
-    .catch(err=> console.log(err))
 
+
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('surah')) {
+            alert("adsad");
+        }
+    });
+
+
+
+    function fetchSurah () {
+        fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
+        .then(response => response.json())
+        .then(result => {
+            const surah = result;
+            let card = '';
+            surah.forEach(s => {
+                card += showSurah(s);
+            });
+            surahCotainer.innerHTML = card;
+        })
+        .catch(err => console.log(err));
+    }
 
     function showSurah (surah) {
-        return `<div class="col-sm-4 mb-4">
-        <div class="card">
-          <div class="card-body">
+        return `<div class="col-sm-4 mb-4  ">
+        <div class="card surah btn">
+          <div class="card-body ">
               <div class="d-flex justify-content-between">
                   <div class=" d-flex gap-3 align-items-center">
                       <h4 class="nomer-surah ">${surah.nomor}</h4>
@@ -30,9 +41,9 @@ fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
                       </div>                          
                   </div>
                   
-                  <div class="">
-                        <div class="card-text asma-surah text-end"> "${surah.asma}"</div>
-                        <div><small class="text-muted arti-surah">( ${surah.arti} )</small> </div> 
+                  <div class="d">
+                        <h5 class="card-text asma-surah text-end"> "${surah.asma}"</h5>
+                        <p><small class="text-muted arti-surah">( ${surah.arti} )</small> </p> 
                   </div>
 
               </div>
