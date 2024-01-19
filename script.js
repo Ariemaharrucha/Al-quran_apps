@@ -1,16 +1,13 @@
 const surahCotainer = document.querySelector('.container-surah');
-// const btnSurah = document.querySelectorAll('.surah')
-const apiUrl = ``;
-
 
     fetchSurah();
 
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', async function (e) {
         const dataSet_surah = e.target.closest('.surah')
         if(dataSet_surah) {
             console.log(dataSet_surah.dataset.nomer);
-             fetchAyatQuran(dataSet_surah.dataset.nomer);
-            
+            const ayat = await fetchAyatQuran(dataSet_surah.dataset.nomer);
+            updateUIayat(ayat)
         }
     });
 
@@ -36,16 +33,9 @@ const apiUrl = ``;
     }
 
     function fetchAyatQuran(nomer) {
-        fetch(`https://al-quran-8d642.firebaseio.com/surat/${nomer}.json?print=pretty`)
+        return fetch(`https://al-quran-8d642.firebaseio.com/surat/${nomer}.json?print=pretty`)
         .then(response => response.json())
-        .then(result => {
-            let card = " "
-            result.forEach((a) => {
-                card += showAyat(a)
-            })
-            surahCotainer.innerHTML = card;
-
-        })
+        .then(result => result)
         .catch(err => console.log(err))
     }
 
@@ -96,23 +86,25 @@ const apiUrl = ``;
 </div> `
     }
 
-    // function updateUIayat(result) {
-    //     let card = " ";
-        
-    //     surahCotainer.innerHTML = card;  
-    //     console.log(result);      
-    // }
+    function updateUIayat(ayatSurah) {
+        let card = " "
+        ayatSurah.forEach((a) => {
+            card += showAyat(a)
+        })        
+        surahCotainer.innerHTML = card;  
+    }
 
     function showAyat(ayat) {
         return `<div class="col-12 mb-4">
         <div class="card " >
           <div class="card-header row justify-content-between align-items-center">
-            <div class="col fs-4 fw-semibold">
-              ${ayat.nomor}
+            <div class="col fs-4 fw-semibold d-flex justify-content-between">
+                <div>${ayat.nomor}</div>
+                
             </div>
             
             <div class="col card-body text-bg-light p-2 text-end  "  >
-                <div class="card  p-2 text-end ">  
+                <div class="card  p-3 text-end ">  
                 <p class="card-text  fs-2">${ayat.ar}</p>                             
                 </div>                
             </div>
