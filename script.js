@@ -8,10 +8,13 @@ const surahCotainer = document.querySelector('.container-surah');
     document.addEventListener('click', async function (e) {
         const dataSet_surah = e.target.closest('.surah')
         if(dataSet_surah) {
-            console.log(dataSet_surah.dataset.nomer);
-            console.log(dataSet_surah.dataset.audio);
-            const ayat = await fetchAyatQuran(dataSet_surah.dataset.nomer);
+            // console.log(dataSet_surah.dataset.nomer);
+            // console.log(dataSet_surah.dataset.audio);
             const audio_surah = dataSet_surah.dataset.audio; 
+            const nomerSurah = dataSet_surah.dataset.nomer;
+            // history.pushState({nomer : nomerSurah, audio: audio_surah}," ",`/surah/${nomerSurah}`)
+            
+            const ayat = await fetchAyatQuran(nomerSurah);           
             updateUIayat(ayat,audio_surah)
         }
 
@@ -20,12 +23,18 @@ const surahCotainer = document.querySelector('.container-surah');
             const audioURL = playBtn.dataset.audiosurah;
             console.log(audioURL);
             const playAudio = new Audio(audioURL)
-
             playAudio.play()
         }
     });
 
-
+    window.addEventListener('popstate',async function(event){
+        if(event.state){
+            console.log('test');
+            // const surah = await fetchSurah()
+            // updateUIsurah(surah)
+            
+        }
+    })
 
     function fetchSurah () {
       return fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
@@ -108,17 +117,16 @@ const surahCotainer = document.querySelector('.container-surah');
             
             <div class="col card-body  p-2 text-end  "  >
                 <div class="card  p-3 text-end ">  
-                <p class="card-text fs-2">${ayat.ar}</p>                             
+                <p class="card-text fs-3">${ayat.ar}</p>                             
                 </div>                
             </div>
-
+            <div class="col p-2 card-body " style="margin:0 10px ;>
+            <p class="card-text font-monospace  fs-5 huruf-latin">${ayat.tr}</p>
+                    <p class="card-text terjemahan fw-semibold">${ayat.id}.</p>           
+                </div>
           </div>
           
-          <div class="card-body">
-            <p class="card-text font-monospace  fs-5 huruf-latin">${ayat.tr}</p>
-            <p class="card-text terjemahan fw-semibold">${ayat.id}.</p>
-            
-          </div>
+          
         </div>
       </div>`
     }
