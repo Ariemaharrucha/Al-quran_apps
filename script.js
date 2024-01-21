@@ -1,4 +1,7 @@
 const surahCotainer = document.querySelector('.container-surah');
+let isAudioPlaying = false;
+let playAudio;  
+
 
     document.addEventListener('DOMContentLoaded', async function(){
         const surah = await fetchSurah();
@@ -9,32 +12,44 @@ const surahCotainer = document.querySelector('.container-surah');
         const dataSet_surah = e.target.closest('.surah')
         if(dataSet_surah) {
             // console.log(dataSet_surah.dataset.nomer);
-            // console.log(dataSet_surah.dataset.audio);
+            console.log(dataSet_surah.dataset.audio);
             const audio_surah = dataSet_surah.dataset.audio; 
             const nomerSurah = dataSet_surah.dataset.nomer;
-            // history.pushState({nomer : nomerSurah, audio: audio_surah}," ",`/surah/${nomerSurah}`)
             
             const ayat = await fetchAyatQuran(nomerSurah);           
             updateUIayat(ayat,audio_surah)
         }
-
+        
         const playBtn= e.target.closest('.play-audio')
+
         if(playBtn) {
+            const playIcon = document.getElementById('playIcon')
             const audioURL = playBtn.dataset.audiosurah;
-            console.log(audioURL);
-            const playAudio = new Audio(audioURL)
-            playAudio.play()
+            
+            if (!playAudio) {
+                playAudio = new Audio(audioURL);
+                playAudio.addEventListener('ended', function() {
+                    playIcon.classList.remove('bi-pause-circle');
+                    playIcon.classList.add('bi-play-circle');
+                    isAudioPlaying = false;
+                });
+            }
+
+            if(isAudioPlaying) {
+                playAudio.pause();
+                playIcon.classList.remove('bi-pause-circle');
+                playIcon.classList.add('bi-play-circle');
+                isAudioPlaying = false;
+            } else {
+                playAudio.play();
+                playIcon.classList.remove('bi-play-circle');
+                playIcon.classList.add('bi-pause-circle');
+                isAudioPlaying = true;
+            }               
         }
+        
     });
 
-    window.addEventListener('popstate',async function(event){
-        if(event.state){
-            console.log('test');
-            // const surah = await fetchSurah()
-            // updateUIsurah(surah)
-            
-        }
-    })
 
     function fetchSurah () {
       return fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
@@ -50,6 +65,7 @@ const surahCotainer = document.querySelector('.container-surah');
         .catch(err => console.log(err))
     }
 
+    let lastSurahState;
 
     function updateUIsurah(result) {
         const surah = result;
@@ -58,20 +74,25 @@ const surahCotainer = document.querySelector('.container-surah');
                 card += showSurah(s);
             });
             surahCotainer.innerHTML = card;
+            lastSurahState= card;
     }
 
+    
     function updateUIayat(ayatSurah,audio) {
+        const headerSurah = document.querySelector('.play-btn');
+        const ayat_Surah = document.querySelector('.ayatSurah');
+        headerSurah.innerHTML = btnPlay(audio);
         let card = " "
         ayatSurah.forEach((a) => {
             card += showAyat(a,audio)
-        })        
-        surahCotainer.innerHTML = card;  
+        }) 
+        ayat_Surah.innerHTML = card;                      
     }
 
     function showSurah (surah) {
         //v2
         return `<div class="col-sm-4 mb-4"> 
-        <div class="card surah btn p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} style=" " >
+        <div class="card surah btn p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah" >
               <div class="row justify-content-between " >                        
                   <div class=" col d-flex align-items-center">
                       <strong class="nomer-surah ">${surah.nomor}</strong>
@@ -93,19 +114,18 @@ const surahCotainer = document.querySelector('.container-surah');
           </div> `
       }
   
-
+    function btnPlay(audio) {                
+        return `<a href="#" type="" class=" play-audio " data-audiosurah=${audio}> <i id="playIcon" class="bi bi-play-circle fs-2" style="color:green;" ></i></a>`;
+    }
     function showAyat(ayat,audio) {      
-        return `<div class="col-12 mb-4">
+        
+        const surah_ayat = `<div class="col-12 mb-4">
         <div class="card" >
           <div class="card-body row justify-content-between align-items-center">
             <div class="col fs-4 fw-semibold d-flex justify-content-between">
                 <div>${ayat.nomor}</div>
                                
                 <div class="btn-group " role="group" aria-label="Basic example">
-
-                  <button type="button" class="btn border border-0 play-audio" data-audiosurah=${audio}> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16" style="color: green;">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
-                  </svg></button>
 
                   <button type="button" class="btn border border-0" ><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16" style="color: green;">
                     <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
@@ -120,7 +140,7 @@ const surahCotainer = document.querySelector('.container-surah');
                 <p class="card-text fs-3">${ayat.ar}</p>                             
                 </div>                
             </div>
-            <div class="col p-2 card-body " style="margin:0 10px ;>
+            <div class="col p-2 card-body " style="margin:0 10px" ;>
             <p class="card-text font-monospace  fs-5 huruf-latin">${ayat.tr}</p>
                     <p class="card-text terjemahan fw-semibold">${ayat.id}.</p>           
                 </div>
@@ -129,5 +149,7 @@ const surahCotainer = document.querySelector('.container-surah');
           
         </div>
       </div>`
+        return surah_ayat
+
     }
 
