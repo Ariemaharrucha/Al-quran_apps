@@ -1,6 +1,4 @@
-const surahCotainer = document.querySelector('.container-surah');
-let isAudioPlaying = false;
-let playAudio;  
+const surahCotainer = document.querySelector('.container-surah');  
 
 
     document.addEventListener('DOMContentLoaded', async function(){
@@ -18,34 +16,6 @@ let playAudio;
             
             const ayat = await fetchAyatQuran(nomerSurah);           
             updateUIayat(ayat,audio_surah)
-        }
-        
-        const playBtn= e.target.closest('.play-audio')
-
-        if(playBtn) {
-            const playIcon = document.getElementById('playIcon')
-            const audioURL = playBtn.dataset.audiosurah;
-            
-            if (!playAudio) {
-                playAudio = new Audio(audioURL);
-                playAudio.addEventListener('ended', function() {
-                    playIcon.classList.remove('bi-pause-circle');
-                    playIcon.classList.add('bi-play-circle');
-                    isAudioPlaying = false;
-                });
-            }
-
-            if(isAudioPlaying) {
-                playAudio.pause();
-                playIcon.classList.remove('bi-pause-circle');
-                playIcon.classList.add('bi-play-circle');
-                isAudioPlaying = false;
-            } else {
-                playAudio.play();
-                playIcon.classList.remove('bi-play-circle');
-                playIcon.classList.add('bi-pause-circle');
-                isAudioPlaying = true;
-            }               
         }
         
     });
@@ -91,11 +61,14 @@ let playAudio;
 
     function showSurah (surah) {
         //v2
-        return `<div class="col-sm-4 mb-4"> 
-        <div class="card surah btn p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah" >
+        return `<div class="col-sm-4 my-4"> 
+        <div class="card surah  p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah" >
               <div class="row justify-content-between " >                        
-                  <div class=" col d-flex align-items-center">
-                      <strong class="nomer-surah ">${surah.nomor}</strong>
+                  <div class=" col-8 d-flex align-items-center ">
+                  <div class="border-surah ">
+                  <strong class="">${surah.nomor}</strong>
+                  </div>
+                      
                       <div class="ms-3">
                           <div class="card-title nama-surah fw-semibold ">${surah.nama}</div>           
                           <span class="card-subtitle type-surah text-muted ">${surah.type} <small class="text-muted jumlah-ayat">ayat ${surah.ayat}</small></span>
@@ -115,7 +88,25 @@ let playAudio;
       }
   
     function btnPlay(audio) {                
-        return `<a href="#" type="" class=" play-audio " data-audiosurah=${audio}> <i id="playIcon" class="bi bi-play-circle fs-2" style="color:green;" ></i></a>`;
+        return `<div class="col">
+        <audio controls ">
+        <source src="${audio}" type="audio/mpeg">
+      </audio> 
+      </div>
+
+      <div class="col">
+      <div class="dropdown ">      
+      <button class="btn btn-secondary dropdown-toggle btn-sm type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Lihat detail
+        </button>
+         <ul class="dropdown-menu dropdown-menu-dark">
+
+            <li><a class="dropdown-item active" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">terjemahan</a></li>
+           
+            </ul>
+        </div>
+    </div>`;
     }
     function showAyat(ayat,audio) {      
         
