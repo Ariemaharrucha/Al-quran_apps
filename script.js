@@ -1,10 +1,12 @@
 const surahCotainer = document.querySelector('.container-surah');  
-
+const inputSurah = document.querySelector('.input-surah');
 
     document.addEventListener('DOMContentLoaded', async function(){
         const surah = await fetchSurah();
         updateUIsurah(surah);
+
     })
+
 
     document.addEventListener('click', async function (e) {
         const dataSet_surah = e.target.closest('.surah')
@@ -21,6 +23,9 @@ const surahCotainer = document.querySelector('.container-surah');
     });
 
 
+
+
+
     function fetchSurah () {
       return fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
         .then(response => response.json())
@@ -35,7 +40,7 @@ const surahCotainer = document.querySelector('.container-surah');
         .catch(err => console.log(err))
     }
 
-    let lastSurahState;
+    // let lastSurahState;
 
     function updateUIsurah(result) {
         const surah = result;
@@ -44,7 +49,7 @@ const surahCotainer = document.querySelector('.container-surah');
                 card += showSurah(s);
             });
             surahCotainer.innerHTML = card;
-            lastSurahState= card;
+            // lastSurahState= card;
     }
 
     
@@ -147,6 +152,3 @@ const surahCotainer = document.querySelector('.container-surah');
 
     }
 
-//     <div class="col-5 text-end overflow">
-//     <div class="card-text asma-surah"> "${surah.asma}"</div>
-//   </div>

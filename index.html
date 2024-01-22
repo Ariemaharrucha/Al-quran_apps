@@ -11,24 +11,58 @@
   <body>
     
     <!-- nav -->
-    <section class="container">
-        <nav class="navbar bg-light ">
-            <div class="container-fluid">
-              <a class="navbar-brand " href=""><p class="fs-3 fw-semibold" >AL-Quran</p> </a>
-              <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-                
-              </form>
+      <nav class="navbar navbar-expand-lg ">
+        <div class="container">
+          <a class="navbar-brand fw-semibold " href="#">AL-Quran</a>
+          
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto">
+
+              <a class="nav-link fs-5 fw-semibold" aria-current="page" href="#">Home</a>
+              <a class="nav-link fs-5 fw-semibold" href="#">Features</a>
+              <p class="nav-link fs-5 fw-semibold" href="#">Pricing</p>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fs-5 fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Type
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">mekah</li>
+                  <li><a class="dropdown-item" href="#">madinah</a></li>
+                </ul>
+              </li>
             </div>
-            <!-- <audio controls>
-              <source src="http://ia802609.us.archive.org/13/items/quraninindonesia/001AlFaatihah.mp3" type="audio/mpeg">
-            </audio> -->
-          </nav>
+          </div>
+        </div>
+      </nav>
+
+    <section class="intro">
+      <div class="container-fluid ">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-5 text-center text-md-start ">
+            <h1>
+              <div class="display-2">//</div>
+            </h1>
+            <p class="fw-semibold lead my-4 ">//</p>
+            <div class="input-group input-group-lg">               
+              <input type="text" class="form-control name-surah" placeholder="Cari surah yang akan kamu baca contoh `Al Fatihah`" aria-label="Recipient's username" aria-describedby="button-addon2" >
+              <span class="input-group-text input-surah input-surah" id="basic-addon1" type="button"><i class="bi bi-search"></i></span>
+            </div>
+          </div>
+
+          <div class="col-md-5 d-none d-md-block">
+              <img src="Assets/images/al-qur_an-removebg-preview.png" alt="" class="img-fluid">
+          </div>
+        </div>
+      </div>
+
     </section>
 
-    <section class="container bg-light">
-
+    <section class="">
+      <div class="container ">
         <div class="row  container-surah">
           <!-- <div class="col-sm-4 my-4"> 
             <div class="card surah  p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah"  >
@@ -53,11 +87,12 @@
             </div> 
         </div> -->
         </div> 
-        
+      </div>
 
+        
     </section>
 
-    <div class="modal fade" id="ToggleSurah" aria-hidden="true" aria-labelledby="ToggleSurahLabel" tabindex="-1">
+    <div class="modal fade " id="ToggleSurah" aria-hidden="true" aria-labelledby="ToggleSurahLabel" tabindex="-1">
         <div class="modal-dialog  modal-lg ">
           <div class="modal-content ">
              <div class="modal-header position-relative">
