@@ -1,15 +1,22 @@
 const surahCotainer = document.querySelector('.container-surah');  
-const inputSurah = document.querySelector('.input-surah');
+let terjemahan = false;
+let transileterasi = false;
 
     document.addEventListener('DOMContentLoaded', async function(){
         const surah = await fetchSurah();
         updateUIsurah(surah);
 
+
     })
 
-
+    
     document.addEventListener('click', async function (e) {
         const dataSet_surah = e.target.closest('.surah')
+        const terjemahanToggle = e.target.closest('.terjemahanBtn')
+        const transileterasiToggle = e.target.closest('.transileterasiBtn')
+        
+        
+        
         if(dataSet_surah) {
             // console.log(dataSet_surah.dataset.nomer);
             console.log(dataSet_surah.dataset.audio);
@@ -19,9 +26,52 @@ const inputSurah = document.querySelector('.input-surah');
             const ayat = await fetchAyatQuran(nomerSurah);           
             updateUIayat(ayat,audio_surah)
         }
+
+        if(terjemahanToggle) {
+            const translateIcon = document.getElementById('translateIcon');
+            const terjemahanSurah = document.querySelectorAll('.terjemahan')
+            if(!terjemahan) {
+                translateIcon.classList.remove('bi-toggle-on');
+                translateIcon.classList.add('bi-toggle-off');
+                terjemahanSurah.forEach((e)=>{
+                    e.setAttribute('style', 'display:none')
+                })
+                // terjemahanSurah.style.display='none'
+                terjemahan = true;
+                
+                } else {
+                    translateIcon.classList.remove('bi-toggle-off');
+                    translateIcon.classList.add('bi-toggle-on');
+                    terjemahanSurah.forEach((e)=>{
+                        e.setAttribute('style', 'display:block')
+                    })
+                terjemahan = false;
+            }
+        }
+
+        if(transileterasiToggle) {
+            const transileterasiIcon = document.getElementById('transileterasiIcon');
+            const transileterasiSurah = document.querySelectorAll('.transileterasi')
+            if(!transileterasi) {
+                transileterasiIcon.classList.remove('bi-toggle-on');
+                transileterasiIcon.classList.add('bi-toggle-off');
+                transileterasiSurah.forEach((e)=>{
+                    e.setAttribute('style', 'display:none')
+                })
+                // transileterasiSurah.style.display='none'
+                transileterasi = true;
+                
+                } else {
+                    transileterasiIcon.classList.remove('bi-toggle-off');
+                    transileterasiIcon.classList.add('bi-toggle-on');
+                    transileterasiSurah.forEach((e)=>{
+                        e.setAttribute('style', 'display:block')
+                    })
+                transileterasi = false;
+            }
+        }
         
     });
-
 
 
 
@@ -99,16 +149,21 @@ const inputSurah = document.querySelector('.input-surah');
       </audio> 
       </div>
 
-      <div class="col">
+      <div class="col ">
       <div class="dropdown ">      
-      <button class="btn btn-secondary dropdown-toggle btn-sm type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <button class="btn  dropdown-toggle  border border-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Lihat detail
         </button>
-         <ul class="dropdown-menu dropdown-menu-dark">
+         <ul class="dropdown-menu ">
 
-            <li><a class="dropdown-item active" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">terjemahan</a></li>
-           
+            <li class="d-flex align-items-center justify-content-between mx-2"> 
+                <small class="font-monospace fs-6" >Transileterasi</small>
+                <span class="transileterasiBtn ms-2" type="button"><i class="bi bi-toggle-on fs-3 " id="transileterasiIcon"></i></span>
+            </li> 
+            <li class="d-flex align-items-center justify-content-between mx-2"> 
+                <small class="fs-6 " >terjemahan</small>
+                <span class="terjemahanBtn" type="button"><i class="bi bi-toggle-on fs-3" id="translateIcon"></i></span>
+            </li>           
             </ul>
         </div>
     </div>`;
@@ -140,7 +195,7 @@ const inputSurah = document.querySelector('.input-surah');
                 </div>                
             </div>
             <div class="col p-2 card-body " style="margin:0 10px" ;>
-            <p class="card-text font-monospace  fs-5 huruf-latin">${ayat.tr}</p>
+            <p class="card-text font-monospace  fs-5 transileterasi">${ayat.tr}</p>
                     <p class="card-text terjemahan fw-semibold">${ayat.id}.</p>           
                 </div>
           </div>
