@@ -62,29 +62,29 @@ const surahCotainer = document.querySelector('.container-surah');
     function showSurah (surah) {
         //v2
         return `<div class="col-sm-4 my-4"> 
-        <div class="card surah  p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah" >
-              <div class="row justify-content-between " >                        
-                  <div class=" col-8 d-flex align-items-center ">
-                  <div class="border-surah ">
-                  <strong class="">${surah.nomor}</strong>
-                  </div>
-                      
-                      <div class="ms-3">
-                          <div class="card-title nama-surah fw-semibold ">${surah.nama}</div>           
-                          <span class="card-subtitle type-surah text-muted ">${surah.type} <small class="text-muted jumlah-ayat">ayat ${surah.ayat}</small></span>
-                      </div>
-                                                
-                  </div>
-                  
-                   <div class="col text-end">
-                          <div class="card-text asma-surah"> "${surah.asma}"</di>
-                          <div><small class="text-muted arti-surah">( ${surah.arti} )</small> </div> 
-                  </div> 
-  
-              </div> 
-          </div> 
-      </div>
-          </div> `
+        <div class="card surah  p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah"  >
+          
+          <div class="row justify-content-between " >                        
+              <div class=" col-10 d-flex align-items-center ">
+                <div class="border-surah">
+                  <img src="Assets/images/border-ayat.png" alt="" style="width: 44px;">
+                  <div class="nomor-surah">${surah.nomor}</div>
+                </div>              
+                  <div class="ms-2">
+                    <div class="nama-surah fw-semibold">${surah.nama} (${surah.ayat})</div>
+                    <div><small class="text-muted arti-surah">${surah.arti}</small></div> 
+                  </div>                                                    
+              </div>                                   
+          </div>
+
+          <div class="asma-surah ">
+            <div class="position-absolute top-0 end-0 mt-3 me-2 text-end">
+            <span class="fw-bold">${surah.asma}</span> <br> <span class="text-muted">${surah.type  }</span>
+            </div>
+          </div>
+
+        </div> 
+    </div>`;
       }
   
     function btnPlay(audio) {                
@@ -114,7 +114,10 @@ const surahCotainer = document.querySelector('.container-surah');
         <div class="card" >
           <div class="card-body row justify-content-between align-items-center">
             <div class="col fs-4 fw-semibold d-flex justify-content-between">
-                <div>${ayat.nomor}</div>
+                <div class="border-surah">
+                    <img src="Assets/images/border-ayat.png" alt="" style="width: 44px;">
+                    <div class="nomor-surah fs-6">${ayat.nomor}</div>
+                </div>
                                
                 <div class="btn-group " role="group" aria-label="Basic example">
 
@@ -144,3 +147,6 @@ const surahCotainer = document.querySelector('.container-surah');
 
     }
 
+//     <div class="col-5 text-end overflow">
+//     <div class="card-text asma-surah"> "${surah.asma}"</div>
+//   </div>

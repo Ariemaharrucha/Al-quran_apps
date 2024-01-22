@@ -2,11 +2,11 @@ audio {
    height: 30px 
 }
 
-.border-surah {
+/* .border-surah {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: aqua; */
+    /* background-color: aqua; 
     position: relative;
     width: 44px;
     height: 44px;
@@ -14,4 +14,18 @@ audio {
     background-size: contain;
     background-repeat: no-repeat;
     
+} */
+
+.border-surah  {
+    position: relative;
+    text-align: center; 
 }
+
+.nomor-surah {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
