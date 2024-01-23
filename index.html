@@ -11,8 +11,8 @@
   <body> 
     
     <!-- nav -->
-      <nav class="navbar navbar-expand-lg ">
-        <div class="container">
+      <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container ">
           <a class="navbar-brand fw-semibold " href="#">AL-Quran</a>
           
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,15 +21,13 @@
 
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto align-items-center">
-              
-              <a class="nav-link h6  fw-semibold">Urutkan</a>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle h6 fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <span>Ascending</span>
+                  <span>Urutkan</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">mekah</li>
-                  <li><a class="dropdown-item" href="#">madinah</a></li>
+                  <li><a class="dropdown-item Ascending" href="#">Ascending</li>
+                  <li><a class="dropdown-item Descending" href="#">Descending</a></li>
                 </ul>
               </li>
             </div>
@@ -38,7 +36,7 @@
       </nav>
       
     <section class="intro">
-      <div class="container-fluid ">
+      <div class="container-fluid" style="margin-top: 5rem;">
         <div class="row align-items-center justify-content-center">
           <!-- <div class="col-md-5 d-md-none d-sm-block text-center text-md-start ">
             <h1>
@@ -58,7 +56,7 @@
 
     <section class="">
       <div class="container ">
-        <div class="row  container-surah">
+        <div class="row  container-surah " >
           <!-- <div class="col-sm-4 my-4"> 
             <div class="card surah  p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah"  >
               
@@ -88,16 +86,15 @@
     </section>
 
     <div class="modal fade " id="ToggleSurah" aria-hidden="true" aria-labelledby="ToggleSurahLabel" tabindex="-1">
-        <div class="modal-dialog  modal-lg ">
-          <div class="modal-content " >
-             <div class="modal-header position-relative">
+        <div class="modal-dialog  modal-xl " >
+          <div class="modal-content "  >
+             <div class="modal-header position-relative" id="wraperAlert">
                 <div class=" play-btn row align-items-center" role="group">
-                  
                 </div>
                <button type="button" class="btn-close position-absolute top-0 end-0 mt-3 me-2" data-bs-dismiss="modal" aria-label="Close"></button> 
             </div> 
 
-              <div class="row ayatSurah" >
+              <div class="row ayatSurah"  >
                 
               </div>
 

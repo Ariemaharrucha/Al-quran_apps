@@ -1,4 +1,6 @@
-const surahCotainer = document.querySelector('.container-surah');  
+const surahCotainer = document.querySelector('.container-surah'); 
+const descandingBtn = document.querySelector('.Descending');
+const ascendingBtn = document.querySelector('.Ascending');
 let terjemahan = false;
 let transileterasi = false;
 
@@ -6,15 +8,24 @@ let transileterasi = false;
         const surah = await fetchSurah();
         updateUIsurah(surah);
 
-
+        descandingBtn.addEventListener('click',async function(){
+            const surah = await fetchSurah();
+            descanding(surah);
+        });
+        
+        ascendingBtn.addEventListener('click',async function(){
+            const surah = await fetchSurah();
+            updateUIsurah(surah);
+        });
     })
 
-    
+
+
     document.addEventListener('click', async function (e) {
-        const dataSet_surah = e.target.closest('.surah')
-        const terjemahanToggle = e.target.closest('.terjemahanBtn')
-        const transileterasiToggle = e.target.closest('.transileterasiBtn')
-        
+        const dataSet_surah = e.target.closest('.surah');
+        const terjemahanToggle = e.target.closest('.terjemahanBtn');
+        const transileterasiToggle = e.target.closest('.transileterasiBtn');
+        const copyBtn = e.target.closest('.copy-btn')
         
         
         if(dataSet_surah) {
@@ -24,7 +35,7 @@ let transileterasi = false;
             const nomerSurah = dataSet_surah.dataset.nomer;
             
             const ayat = await fetchAyatQuran(nomerSurah);           
-            updateUIayat(ayat,audio_surah)
+            updateUIayat(ayat,audio_surah);
         }
 
         if(terjemahanToggle) {
@@ -51,7 +62,7 @@ let transileterasi = false;
 
         if(transileterasiToggle) {
             const transileterasiIcon = document.getElementById('transileterasiIcon');
-            const transileterasiSurah = document.querySelectorAll('.transileterasi')
+            const transileterasiSurah = document.querySelectorAll('.transileterasi');
             if(!transileterasi) {
                 transileterasiIcon.classList.remove('bi-toggle-on');
                 transileterasiIcon.classList.add('bi-toggle-off');
@@ -70,11 +81,30 @@ let transileterasi = false;
                 transileterasi = false;
             }
         }
+
+        if(copyBtn) {
+            const alert = document.getElementById('wraperAlert');
+            // const wraper = document.createElement('div');
+            const alertMessage = document.createElement('div');
+            alertMessage.innerHTML = `
+            <div class="alert alert-success position-absolute top-0 start-50 translate-middle mt-5 " role="alert" style="width:100%;">
+                Text copied successfully!
+            </div>
+            `;
+
+            // wraper.appendChild(alertMessage);
+            alert.appendChild(alertMessage);
+            
+           const text = copyBtn.dataset.text
+            console.log(text);
+            copyText(text)
+
+            setTimeout(() => {
+                alertMessage.innerHTML = ''; // Clear the alert container
+            }, 1000)
+        }
         
     });
-
-
-
 
     function fetchSurah () {
       return fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
@@ -117,7 +147,7 @@ let transileterasi = false;
     function showSurah (surah) {
         //v2
         return `<div class="col-sm-4 my-4"> 
-        <div class="card surah  p-3" type="button" data-nomer=${surah.nomor} data-audio=${surah.audio} data-bs-toggle="modal" href="#ToggleSurah"  >
+        <div class="card surah  p-3 " type="button" data-nomer="${surah.nomor}" data-audio="${surah.audio}" data-bs-toggle="modal" href="#ToggleSurah"  >
           
           <div class="row justify-content-between " >                        
               <div class=" col-10 d-flex align-items-center ">
@@ -170,9 +200,9 @@ let transileterasi = false;
     }
     function showAyat(ayat,audio) {      
         
-        const surah_ayat = `<div class="col-12 mb-4">
-        <div class="card" >
-          <div class="card-body row justify-content-between align-items-center">
+        const surah_ayat = `<div class="col-12 ">
+        <div class="card mb-4 mx-2" >
+          <div class="card-body row justify-content-between align-items-center box-ayat">
             <div class="col fs-4 fw-semibold d-flex justify-content-between">
                 <div class="border-surah">
                     <img src="Assets/images/border-ayat.png" alt="" style="width: 44px;">
@@ -181,14 +211,11 @@ let transileterasi = false;
                                
                 <div class="btn-group " role="group" aria-label="Basic example">
 
-                  <button type="button" class="btn border border-0" ><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16" style="color: green;">
+                  <button type="button" class="btn border border-0 copy-btn" data-text="${ayat.ar}  ${ayat.id}""> <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16" style="color: green;">
                     <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
                   </svg></button>
-
                 </div>
-
-            </div>
-            
+            </div>            
             <div class="col card-body  p-2 text-end  "  >
                 <div class="card  p-3 text-end ">  
                 <p class="card-text fs-3">${ayat.ar}</p>                             
@@ -198,12 +225,38 @@ let transileterasi = false;
             <p class="card-text font-monospace  fs-5 transileterasi">${ayat.tr}</p>
                     <p class="card-text terjemahan fw-semibold">${ayat.id}.</p>           
                 </div>
-          </div>
-          
-          
+          </div>                   
         </div>
       </div>`
         return surah_ayat
 
     }
 
+    function descanding(surah) {
+        const arrSurah = []
+            surah.forEach(e=>{
+                arrSurah.push(e);
+            })
+            // console.log(arrSurah.length);
+            // for (let i = 0; i < surah.length; i++) {
+            //     const element = surah[i];
+            //     // console.log(surah.reverse());                               
+            // }
+            arrSurah.sort()
+            arrSurah.reverse()
+            updateUIsurah(arrSurah)
+    }
+
+    async function copyText(text) {
+        
+    
+        try {
+            const textCopy = await navigator.clipboard.writeText(text);
+            
+            return textCopy;
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+
+    }
+    
