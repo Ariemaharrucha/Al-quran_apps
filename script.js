@@ -5,28 +5,40 @@ let terjemahan = false;
 let transileterasi = false;
 
     document.addEventListener('DOMContentLoaded', async function(){
-        const surah = await fetchSurah();
-        updateUIsurah(surah);
+        try {
+            const surah = await fetchSurah();
+            updateUIsurah(surah);
+        } catch (error) {
+            alert(error)
+        }
 
         descandingBtn.addEventListener('click',async function(){
-            const surah = await fetchSurah();
-            descanding(surah);
+            try {
+                const surah = await fetchSurah();
+                descanding(surah);
+            } catch (error) {
+                console.error('Error fetching surah:', error.message);
+                alert('Failed to fetch surah data. Please try again later.');
+            }
         });
         
         ascendingBtn.addEventListener('click',async function(){
-            const surah = await fetchSurah();
-            updateUIsurah(surah);
+            try {
+                const surah = await fetchSurah();
+                updateUIsurah(surah);
+            } catch (error) {
+                console.error('Error fetching surah:', error.message);
+                alert('Failed to fetch surah data. Please try again later.');
+            }
         });
     })
 
-
-
     document.addEventListener('click', async function (e) {
+        
         const dataSet_surah = e.target.closest('.surah');
         const terjemahanToggle = e.target.closest('.terjemahanBtn');
         const transileterasiToggle = e.target.closest('.transileterasiBtn');
-        const copyBtn = e.target.closest('.copy-btn')
-        
+        const copyBtn = e.target.closest('.copy-btn')    
         
         if(dataSet_surah) {
             // console.log(dataSet_surah.dataset.nomer);
@@ -82,45 +94,41 @@ let transileterasi = false;
             }
         }
 
-        if(copyBtn) {
-            const alert = document.getElementById('wraperAlert');
-            // const wraper = document.createElement('div');
-            const alertMessage = document.createElement('div');
-            alertMessage.innerHTML = `
-            <div class="alert alert-success position-absolute top-0 start-50 translate-middle mt-5 " role="alert" style="width:100%;">
-                Text copied successfully!
-            </div>
-            `;
-
-            // wraper.appendChild(alertMessage);
-            alert.appendChild(alertMessage);
-            
-           const text = copyBtn.dataset.text
+        if(copyBtn) {         
+            const text = copyBtn.dataset.text
             console.log(text);
-            copyText(text)
-
-            setTimeout(() => {
-                alertMessage.innerHTML = ''; // Clear the alert container
-            }, 1000)
+            copyText(text);         
         }
         
     });
 
     function fetchSurah () {
-      return fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
-        .then(response => response.json())
-        .then(result => result)
-        .catch(err => console.log(err));
+        return fetch(`https://al-quran-8d642.firebaseio.com/data.json?print=pretty`)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch((err) => {
+            console.error('Fetch surah error:', err.message);
+            throw new Error('Failed to fetch surah data.');
+        });
     }
 
     function fetchAyatQuran(nomer) {
         return fetch(`https://al-quran-8d642.firebaseio.com/surat/${nomer}.json?print=pretty`)
-        .then(response => response.json())
-        .then(result => result)
-        .catch(err => console.log(err))
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch((err) => {
+            console.error('Fetch ayat error:', err.message);
+            throw new Error('Failed to fetch ayat data.');
+        });
     }
-
-    // let lastSurahState;
 
     function updateUIsurah(result) {
         const surah = result;
@@ -131,8 +139,7 @@ let transileterasi = false;
             surahCotainer.innerHTML = card;
             // lastSurahState= card;
     }
-
-    
+   
     function updateUIayat(ayatSurah,audio) {
         const headerSurah = document.querySelector('.play-btn');
         const ayat_Surah = document.querySelector('.ayatSurah');
@@ -170,7 +177,7 @@ let transileterasi = false;
 
         </div> 
     </div>`;
-      }
+    }
   
     function btnPlay(audio) {                
         return `<div class="col">
@@ -198,12 +205,13 @@ let transileterasi = false;
         </div>
     </div>`;
     }
+
     function showAyat(ayat,audio) {      
         
-        const surah_ayat = `<div class="col-12 ">
+        const surah_ayat = `<div class="col-12 wraperAlert">
         <div class="card mb-4 mx-2" >
           <div class="card-body row justify-content-between align-items-center box-ayat">
-            <div class="col fs-4 fw-semibold d-flex justify-content-between">
+            <div class="col fs-4 fw-semibold d-flex justify-content-between ">
                 <div class="border-surah">
                     <img src="Assets/images/border-ayat.png" alt="" style="width: 44px;">
                     <div class="nomor-surah fs-6">${ayat.nomor}</div>
@@ -248,12 +256,20 @@ let transileterasi = false;
     }
 
     async function copyText(text) {
-        
-    
+        const alert = document.querySelector('.wraperAlert');
         try {
-            const textCopy = await navigator.clipboard.writeText(text);
+            const alertMessage = document.createElement('div');
+            alertMessage.innerHTML = "Succes copy text"
+            alertMessage.setAttribute("class","alert alert-success position-absolute top-0 start-50 translate-middle mt-5 ","role","alert","syle","");
+            alert.appendChild(alertMessage);
             
+            setTimeout(() => {
+                alert.removeChild(alertMessage)
+            }, 1000);
+
+            const textCopy = await navigator.clipboard.writeText(text);           
             return textCopy;
+
         } catch (err) {
             console.error('Failed to copy: ', err);
         }
