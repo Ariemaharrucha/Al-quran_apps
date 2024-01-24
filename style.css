@@ -47,7 +47,6 @@ audio ::-webkit-media-controls-play-button,
     position: fixed;
     bottom: 20px;
     right: 30px;
-    background-color: aqua;
     z-index: 99;
     border: none;
     outline: none;
@@ -56,22 +55,31 @@ audio ::-webkit-media-controls-play-button,
 }
 
 .btnScrollTop {
-    font-size: 18px;
+    display: none;
     border: none;
     outline: none;
     background-color: white;
     cursor: pointer;
-    padding: 15px;
+    padding: 10px;
     border-radius: 4px 4px 0px 0px ;
     /* transition: cubic-bezier(); */
   } 
 
  .btnScrollBottom {
-    font-size: 18px;
     border: none;
     outline: none;
     background-color: white;
     cursor: pointer;
-    padding: 15px;
+    padding: 10px;
     border-radius: 0px 0px 4px  4px; 
   } 
+
+   .btnScrollBottom:hover{
+    background-color:#F8E7BF ;
+    /* color: white; */
+  }
+
+  .btnScrollTop:hover{
+    background-color:#F8E7BF ;
+    /* color: white; */
+  }
