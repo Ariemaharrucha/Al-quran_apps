@@ -2,16 +2,16 @@ const surahCotainer = document.querySelector('.container-surah');
 const descandingBtn = document.querySelector('.Descending');
 const ascendingBtn = document.querySelector('.Ascending');
 const  btnScrollTop = document.querySelector('.btnScrollTop');
+const  btnScrollBottom = document.querySelector('.btnScrollBottom');
+
 let terjemahan = false;
 let transileterasi = false;
 
     document.addEventListener('DOMContentLoaded', async function(){
-        try {
+        
             const surah = await fetchSurah();
             updateUIsurah(surah);
-        } catch (error) {
-            alert(error)
-        }
+        
 
         descandingBtn.addEventListener('click',async function(){
             try {
@@ -33,7 +33,15 @@ let transileterasi = false;
             }
         });
 
-        
+        window.onscroll = function(){scrollFuction()};
+
+        btnScrollTop.addEventListener('click',function(){
+            topFunction();
+        });
+
+        btnScrollBottom.addEventListener('click',function(){
+            bottomFunction();
+        })
     })
 
     document.addEventListener('click', async function (e) {
@@ -279,3 +287,22 @@ let transileterasi = false;
 
     }
     
+    function scrollFuction() {
+        if(document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            btnScrollTop.style.display = 'block';
+
+        } else {
+            btnScrollTop.style.display = 'none';
+
+        }
+    }
+
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+
+      function bottomFunction() {
+        document.body.scrollTo(0,10000);
+        document.documentElement.scrollTo(0,10000);
+      }
