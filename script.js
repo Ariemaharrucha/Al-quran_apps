@@ -1,6 +1,7 @@
 const surahCotainer = document.querySelector('.container-surah'); 
 const descandingBtn = document.querySelector('.Descending');
 const ascendingBtn = document.querySelector('.Ascending');
+const  btnScrollTop = document.querySelector('.btnScrollTop');
 let terjemahan = false;
 let transileterasi = false;
 
@@ -31,10 +32,12 @@ let transileterasi = false;
                 alert('Failed to fetch surah data. Please try again later.');
             }
         });
+
+        
     })
 
     document.addEventListener('click', async function (e) {
-        
+
         const dataSet_surah = e.target.closest('.surah');
         const terjemahanToggle = e.target.closest('.terjemahanBtn');
         const transileterasiToggle = e.target.closest('.transileterasiBtn');
@@ -188,7 +191,7 @@ let transileterasi = false;
 
       <div class="col ">
       <div class="dropdown ">      
-      <button class="btn  dropdown-toggle  border border-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <button class="btn  dropdown-toggle btn-detail border border-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Lihat detail
         </button>
          <ul class="dropdown-menu ">
@@ -210,7 +213,7 @@ let transileterasi = false;
         
         const surah_ayat = `<div class="col-12 wraperAlert">
         <div class="card mb-4 mx-2" >
-          <div class="card-body row justify-content-between align-items-center box-ayat">
+          <div class="card-body row justify-content-between align-items-center box-ayat" >
             <div class="col fs-4 fw-semibold d-flex justify-content-between ">
                 <div class="border-surah">
                     <img src="Assets/images/border-ayat.png" alt="" style="width: 44px;">
