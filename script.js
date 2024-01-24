@@ -3,6 +3,9 @@ const descandingBtn = document.querySelector('.Descending');
 const ascendingBtn = document.querySelector('.Ascending');
 const  btnScrollTop = document.querySelector('.btnScrollTop');
 const  btnScrollBottom = document.querySelector('.btnScrollBottom');
+const btnScrolltopAyat = document.querySelector('.btnScrolltopAyat')
+const btnScrollBottomAyat = document.querySelector('.btnScrollBottomAyat');
+const modalBody = document.querySelector('.modal-body');
 
 let terjemahan = false;
 let transileterasi = false;
@@ -34,6 +37,7 @@ let transileterasi = false;
         });
 
         window.onscroll = function(){scrollFuction()};
+        modalBody.onscroll = function() {scrollFuction()}
 
         btnScrollTop.addEventListener('click',function(){
             topFunction();
@@ -41,6 +45,14 @@ let transileterasi = false;
 
         btnScrollBottom.addEventListener('click',function(){
             bottomFunction();
+        })
+
+        btnScrolltopAyat.addEventListener('click',function(){
+            topFuncAyat();
+        })
+
+        btnScrollBottomAyat.addEventListener('click',function(){
+            bottomFuncAyat();
         })
     })
 
@@ -164,7 +176,7 @@ let transileterasi = false;
 
     function showSurah (surah) {
         //v2
-        return `<div class="col-sm-4 my-4"> 
+        return `<div class="col-sm-4 mb-2 mt-4"> 
         <div class="card surah  p-3 " type="button" data-nomer="${surah.nomor}" data-audio="${surah.audio}" data-bs-toggle="modal" href="#ToggleSurah"  >
           
           <div class="row justify-content-between " >                        
@@ -290,10 +302,15 @@ let transileterasi = false;
     function scrollFuction() {
         if(document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
             btnScrollTop.style.display = 'block';
-
+            // btnScrolltopAyat.style.display = 'block';
         } else {
             btnScrollTop.style.display = 'none';
+        };
 
+        if(modalBody.scrollTop > 20 ) {
+            btnScrolltopAyat.style.display = 'block';
+        } else {
+            btnScrolltopAyat.style.display = 'none'
         }
     }
 
@@ -302,7 +319,23 @@ let transileterasi = false;
         document.documentElement.scrollTop = 0;
       }
 
-      function bottomFunction() {
-        document.body.scrollTo(0,10000);
-        document.documentElement.scrollTo(0,10000);
+    function bottomFunction() {
+        document.body.scrollTo(0,100000);
+        document.documentElement.scrollTo(0,100000);
       }
+
+    function bottomFuncAyat(){
+        modalBody.scrollTo({
+            top: 1000000,
+            left: 0,
+            behavior: "smooth",
+        });
+      }
+
+    function topFuncAyat(){
+        modalBody.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+        });
+    }
