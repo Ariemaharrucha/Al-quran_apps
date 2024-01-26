@@ -24,6 +24,7 @@ audio ::-webkit-media-controls-play-button,
     audio::-webkit-media-controls-panel {
     background-color: #ffffff;
     color: #ffffff;
+    /* width: 30%; */
     }
 
 .border-surah  {
@@ -126,4 +127,12 @@ audio ::-webkit-media-controls-play-button,
 
   .btnScrollTop:hover{
     background-color:#F8E7BF ;
+  }
+  
+
+  @media screen and (max-width: 576px) {
+    .btnScrollAyat {
+        bottom: 50px;
+        right: 40px;
+    }
   }
