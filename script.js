@@ -11,11 +11,9 @@ let terjemahan = false;
 let transileterasi = false;
 
 document.addEventListener('DOMContentLoaded', async function(){
-    
     const surah = await fetchSurah();
     updateUIsurah(surah);
     
-
     descandingBtn.addEventListener('click',async function(){
         try {
             const surah = await fetchSurah();
@@ -154,13 +152,6 @@ function fetchAyatQuran(nomer) {
 }
 
 function updateUIsurah(result) {
-    // const surah = result;
-    //     let card = '';
-    //     surah.forEach(s => {
-    //         card += showSurah(s);
-    //     });
-    //     surahCotainer.innerHTML = card;
-        // lastSurahState= card;
     const surah = result.map(surah => showSurah(surah))
     surahCotainer.innerHTML = surah.join('');
 }
@@ -169,15 +160,12 @@ function updateUIayat(ayatSurah,audio) {
     const headerSurah = document.querySelector('.play-btn');
     const ayat_Surah = document.querySelector('.ayatSurah');
     headerSurah.innerHTML = btnPlay(audio);
-    let card = " "
-    ayatSurah.forEach((a) => {
-        card += showAyat(a,audio)
-    }) 
-    ayat_Surah.innerHTML = card;                      
+    const card = ayatSurah.map(ayat => showAyat(ayat))
+    ayat_Surah.innerHTML = card.join('');                      
 }
 
 function showSurah (surah) {
-    //v2
+    
     return `<div class="col-sm-4 mb-2 mt-4"> 
     <div class="card surah  p-3 " type="button" data-nomer="${surah.nomor}" data-audio="${surah.audio}" data-bs-toggle="modal" href="#ToggleSurah"  >
         
@@ -271,11 +259,6 @@ function descanding(surah) {
         surah.forEach(e=>{
             arrSurah.push(e);
         })
-        // console.log(arrSurah.length);
-        // for (let i = 0; i < surah.length; i++) {
-        //     const element = surah[i];
-        //     // console.log(surah.reverse());                               
-        // }
         arrSurah.sort()
         arrSurah.reverse()
         updateUIsurah(arrSurah)
